@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
         MaterialAlertDialogBuilder(this)
             .setTitle("Add Task")
-            .setView(null)
+            .setView(dialogBinding.root)
             .setPositiveButton("Save") { _, _ ->
                 Toast.makeText(
                     this,
