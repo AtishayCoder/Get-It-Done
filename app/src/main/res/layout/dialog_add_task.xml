@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="@string/task"
+    <EditText
+        android:id="@+id/edit_text_task"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:id="@+id/edit_text_task"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="wrap_content"
+        android:hint="@string/new_task"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/edit_text_task_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/details"
+        android:importantForAutofill="no"
+        android:paddingBottom="16dp"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_task" />
+
+    <ImageButton
+        android:id="@+id/button_show_details"
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/add_details"
+        android:src="@drawable/icon_details"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_task_details" />
+
+    <ImageButton
+        android:id="@+id/button_star_task"
+        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/star_task"
+        android:src="@drawable/icon_star"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintStart_toEndOf="@id/button_show_details"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_task_details" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:background="null"
+        app:layout_constraintTop_toTopOf="@id/button_star_task"
+        app:layout_constraintBottom_toBottomOf="@id/button_show_details"
+        android:id="@+id/button_save"
+        android:textColor="@color/design_default_color_primary"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

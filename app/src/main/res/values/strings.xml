@@ -3,4 +3,9 @@
     <string name="account_photo">Account photo</string>
     <string name="add_task">Add task</string>
     <string name="task">Task</string>
+    <string name="new_task">New task</string>
+    <string name="details">Add details</string>
+    <string name="add_details">Add Details</string>
+    <string name="star_task">Star Task</string>
+    <string name="save">Save</string>
 </resources>

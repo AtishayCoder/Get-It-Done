@@ -1,9 +1,9 @@
-package com.example.getitdone
+package com.example.getitdone.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "task")
 data class Task(
     @PrimaryKey (autoGenerate = true) val taskID: Int = 0,
     val title: String,
