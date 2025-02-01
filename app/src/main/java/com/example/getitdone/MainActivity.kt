@@ -1,7 +1,7 @@
 package com.example.getitdone
 
-import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: GetItDoneDatabase
     private lateinit var taskDao: TaskDao
+    private val tasksFragment: TasksFragment = TasksFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             showAddTaskDialog()
         }
 
-        db = GetItDoneDatabase.createDb(context = this)
+        db = GetItDoneDatabase.getDatabase(context = this)
         taskDao = db.getTaskDao()
     }
 
@@ -43,6 +44,41 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogBinding.root)
+        var starred = false
+
+        dialogBinding.buttonShowDetails.setOnClickListener {
+            if (dialogBinding.editTextTaskDetails.visibility == View.GONE) {
+                dialogBinding.editTextTaskDetails.visibility = View.VISIBLE
+            } else if (dialogBinding.editTextTaskDetails.visibility == View.VISIBLE) {
+                dialogBinding.editTextTaskDetails.visibility = View.GONE
+            }
+        }
+
+        dialogBinding.buttonSave.setOnClickListener {
+            thread {
+                val task = Task(
+                    title = dialogBinding.editTextTask.text.toString(),
+                    desc = dialogBinding.editTextTaskDetails.text.toString(),
+                    isStarred = starred,
+                )
+                taskDao.createTask(task)
+            }
+
+            dialog.dismiss()
+            tasksFragment.fetchAllTasks()
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(dialogBinding.root.windowToken, 0)
+        }
+
+        dialogBinding.buttonStarTask.setOnClickListener {
+            starred = !starred
+            if (starred) {
+                dialogBinding.buttonStarTask.setImageResource(R.drawable.icon_star_active)
+            } else {
+                dialogBinding.buttonStarTask.setImageResource(R.drawable.icon_star_inactive)
+            }
+        }
+
         dialog.show()
     }
 
@@ -50,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItemCount(): Int = 1
 
         override fun createFragment(position: Int): Fragment {
-            return TasksFragment()
+            return tasksFragment
         }
 
     }
