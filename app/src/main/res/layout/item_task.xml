@@ -19,6 +19,7 @@
         android:id="@+id/text_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/text_view_desc"
         android:layout_marginStart="12dp"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@id/checkbox"
@@ -31,11 +32,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textSize="14sp"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/text_view_title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_title"
         tools:text="A very long description..."
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:layout_width="wrap_content"

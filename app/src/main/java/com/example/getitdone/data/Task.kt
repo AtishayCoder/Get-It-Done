@@ -9,4 +9,5 @@ data class Task(
     val title: String,
     val desc: String? = null,
     val isStarred: Boolean = false,
+    val isCompleted: Boolean = false,
 )

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             showAddTaskDialog()
         }
-
         db = GetItDoneDatabase.getDatabase(context = this)
         taskDao = db.getTaskDao()
     }
@@ -44,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(dialogBinding.root)
-        var starred = false
 
         dialogBinding.buttonShowDetails.setOnClickListener {
             if (dialogBinding.editTextTaskDetails.visibility == View.GONE) {
@@ -59,7 +57,8 @@ class MainActivity : AppCompatActivity() {
                 val task = Task(
                     title = dialogBinding.editTextTask.text.toString(),
                     desc = dialogBinding.editTextTaskDetails.text.toString(),
-                    isStarred = starred,
+                    isStarred = dialogBinding.checkboxStar.isChecked,
+                    isCompleted = false
                 )
                 taskDao.createTask(task)
             }
@@ -68,15 +67,6 @@ class MainActivity : AppCompatActivity() {
             tasksFragment.fetchAllTasks()
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(dialogBinding.root.windowToken, 0)
-        }
-
-        dialogBinding.buttonStarTask.setOnClickListener {
-            starred = !starred
-            if (starred) {
-                dialogBinding.buttonStarTask.setImageResource(R.drawable.icon_star_active)
-            } else {
-                dialogBinding.buttonStarTask.setImageResource(R.drawable.icon_star_inactive)
-            }
         }
 
         dialog.show()
