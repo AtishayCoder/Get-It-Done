@@ -3,6 +3,7 @@ package com.example.getitdone
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.getitdone.data.Task
@@ -54,7 +55,12 @@ class TasksAdapter(val listener: TaskUpdatedListener) :
                     textViewDesc.paintFlags = 0
                 }
                 textViewTitle.text = task.title
-                textViewDesc.text = task.desc
+                if (task.desc.isNullOrEmpty()) {
+                    textViewDesc.visibility = View.GONE
+                } else {
+                    textViewDesc.text = task.desc
+                    textViewDesc.visibility = View.VISIBLE
+                }
                 checkbox.setOnClickListener {
                     listener.onTaskUpdated(task.copy(isCompleted = checkbox.isChecked))
                 }
