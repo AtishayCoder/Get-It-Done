@@ -1,17 +1,17 @@
-package com.example.getitdone
+package com.example.getitdone.ui.tasks
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.getitdone.data.GetItDoneDatabase
 import androidx.fragment.app.Fragment
+import com.example.getitdone.data.GetItDoneDatabase
 import com.example.getitdone.data.Task
 import com.example.getitdone.data.TaskDao
 import com.example.getitdone.databinding.TasksFragmentBinding
 import kotlin.concurrent.thread
 
-class TasksFragment : Fragment(), TasksAdapter.TaskUpdatedListener {
+class TasksFragment : Fragment(), TasksAdapter.TaskClickListener {
 
     private lateinit var binding: TasksFragmentBinding
     private val taskDao: TaskDao by lazy {
@@ -46,6 +46,13 @@ class TasksFragment : Fragment(), TasksAdapter.TaskUpdatedListener {
     override fun onTaskUpdated(task: Task) {
         thread {
             taskDao.updateTask(task)
+            fetchAllTasks()
+        }
+    }
+
+    override fun onTaskDeleted(task: Task) {
+        thread {
+            taskDao.deleteTask(task)
             fetchAllTasks()
         }
     }

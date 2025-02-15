@@ -1,15 +1,16 @@
-package com.example.getitdone
+package com.example.getitdone.ui.tasks
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.getitdone.data.Task
 import com.example.getitdone.databinding.ItemTaskBinding
 
-class TasksAdapter(val listener: TaskUpdatedListener) :
+class TasksAdapter(val listener: TaskClickListener) :
     RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
 
     private var tasks: List<Task> = listOf()
@@ -45,6 +46,11 @@ class TasksAdapter(val listener: TaskUpdatedListener) :
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(task: Task) {
             binding.apply {
+                root.setOnLongClickListener {
+                    listener.onTaskDeleted(task)
+                    Toast.makeText(this.root.context, "Task deleted", Toast.LENGTH_LONG).show()
+                    true
+                }
                 checkbox.isChecked = task.isCompleted
                 toggleStar.isChecked = task.isStarred
                 if (task.isCompleted) {
@@ -71,7 +77,9 @@ class TasksAdapter(val listener: TaskUpdatedListener) :
         }
     }
 
-    interface TaskUpdatedListener {
+    interface TaskClickListener {
         fun onTaskUpdated(task: Task)
+
+        fun onTaskDeleted(task: Task)
     }
 }
