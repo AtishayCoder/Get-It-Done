@@ -44,6 +44,8 @@ android {
 dependencies {
     val room_version = "2.6.1"
     implementation(libs.androidx.core.ktx)
+    implementation("androidx.activity:activity-ktx:1.10.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.6")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
