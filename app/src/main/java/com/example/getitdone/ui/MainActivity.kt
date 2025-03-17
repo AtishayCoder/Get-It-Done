@@ -3,6 +3,7 @@ package com.example.getitdone.ui
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -15,6 +16,10 @@ import com.example.getitdone.ui.tasks.TasksFragment
 import com.example.getitdone.utils.InputValidator
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,12 +30,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.pager.adapter = PagerAdapter(this)
-        TabLayoutMediator(binding.tabs, binding.pager) { tab, position ->
-            tab.text = "Tasks"
-        }.attach()
-        binding.fab.setOnClickListener { showAddTaskDialog() }
-        setContentView(binding.root)
+        binding.apply {
+            pager.adapter = PagerAdapter(this@MainActivity)
+            TabLayoutMediator(tabs, pager) { tab, position ->
+                tab.text = "Tasks"
+            }.attach()
+            fab.setOnClickListener { showAddTaskDialog() }
+            setContentView(root)
+
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(3000)
+                Toast.makeText(this@MainActivity, "Hallo", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun showAddTaskDialog() {
